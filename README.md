@@ -12,30 +12,30 @@ Em outras palavras o Kubernetes é um orquestrador de container.
 
 * **Container:** Container é uma tecnologia de virtualização usada para empacotar e isolar aplicações e suas dependências, de forma simples, container é isolamento de recursos. 
     * **Container engine:** É o responsável por gerenciar as imagens e volumes, ele é o responsável por garantir que os os recursos utilizados pelos containers estão devidamente isolados, a vida do container, storage, rede, etc, ou seja, é o responsável por criar o container e verificar se ele esta funcionando corretamente, são exemplos de container engine: Docker Engine e o Podman.
-    <br>
+    
     * **Container runtime:** é o responsável por executar os containers nos nós. Quando você está utilizando ferramentas como Docker ou Podman para executar containers em sua máquina, por exemplo, você está fazendo uso de algum Container Runtime, ou melhor, o seu Container Engine está fazendo uso de algum Container Runtime, em outras palavras ele é o responsável por fazer as comunicações entre o container engine e o Kernel do host. (Ele executa os containeres).
     Temos três tipos de Container Runtime:
         * **Low-level:** são os Container Runtime que são executados diretamente pelo Kernel, como o runc, o crun e o runsc.
         * **High-level:** são os Container Runtime que são executados por um Container Engine, como o containerd, o CRI-O e o Podman.
         * **Sandbox e Virtualized:** são os Container Runtime que são executados por um Container Engine e que são responsáveis por executar containers de forma segura. O tipo Sandbox é executado em unikernels ou utilizando algum proxy para fazer a comunicação com o Kernel. O gVisor é um exemplo de Container Runtime do tipo Sandbox. Já o tipo Virtualized é executado em máquinas virtuais. A performance aqui é um pouco menor do que quando executado nativamente. O Kata Containers é um exemplo de Container Runtime do tipo Virtualized.
-<br>
+
 * **OCI (Open Container Initiative):** A OCI é uma organização sem fins lucrativos que tem como objetivo padronizar a criação de containers, para que possam ser executados em qualquer ambiente. A OCI foi fundada em 2015 pela Docker, CoreOS, Google, IBM, Microsoft, Red Hat e VMware e hoje faz parte da Linux Foundation.
 O runc, principal projeto desenvolvido pela OCI, é um container runtime de baixo nível amplamente utilizado por diversos Container Engines, incluindo o Docker. Este projeto, totalmente open source, é escrito em Go e seu código fonte pode ser acessado no GitHub.
-<br>
+
 * **Cluster:** É o ambiente do kubernetes e é composto por:
     * **Master (control plane):** responsável por gerenciar o cluster possui a resposabilidade de armazenar o estado do cluster e de manter a saúde e disponibilidade do cluster.
     * **Nodes:** Máquinas (físicas ou virtuais) que executam os containers.
-<br>
+
 * **Pods:**
-<br>
+
 * **Deployments:**
-<br>
+
 * **Services:**
-<br>
+
 * **ReplicaSets:**
-<br>
+
 * Namespaces
-<br>
+
 * ConfigMap e secret
 
 ### 🧩 Arquitetura do K8S
