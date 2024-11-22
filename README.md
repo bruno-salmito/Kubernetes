@@ -26,17 +26,15 @@ O runc, principal projeto desenvolvido pela OCI, é um container runtime de baix
     * **Master (control plane):** responsável por gerenciar o cluster possui a resposabilidade de armazenar o estado do cluster e de manter a saúde e disponibilidade do cluster.
     * **Nodes:** Máquinas (físicas ou virtuais) que executam os containers.
 
-* **Pods:**
+* **Pods:** É o menor objeto do k8s. Como dito anteriormente, o k8s não trabalha com os contêineres diretamente, mas organiza-os dentro de pods, que são abstrações que dividem os mesmos recursos, como endereços, volumes, ciclos de CPU e memória. Um pod pode possuir vários contêineres
 
-* **Deployments:**
+* **Deployments:** É um dos principais controllers utilizados. O Deployment, em conjunto com o ReplicaSet, garante que determinado número de réplicas de um pod esteja em execução nos nós workers do cluster. Além disso, o Deployment também é responsável por gerenciar o ciclo de vida das aplicações, onde características associadas a aplicação, tais como imagem, porta, volumes e variáveis de ambiente, podem ser especificados em arquivos do tipo yaml ou json para posteriormente serem passados como parâmetro para o kubectl executar o deployment. Esta ação pode ser executada tanto para criação quanto para atualização e remoção do deployment
 
-* **Services:**
+* **Services:** É uma forma de você expor a comunicação através de um ClusterIP, NodePort ou LoadBalancer para distribuir as requisições entre os diversos Pods daquele Deployment. Funciona como um balanceador de carga.
 
-* **ReplicaSets:**
+* **ReplicaSets:** É um objeto responsável por garantir a quantidade de pods em execução no nó;
 
-* Namespaces
-
-* ConfigMap e secret
+* **Namespaces:** Permitem a divisão lógica do cluster em ambientes isolados, como desenvolvimento, homologação e produção.
 
 ### 🧩 Arquitetura do K8S
 Assim como os demais orquestradores disponíveis, o k8s também segue um modelo control plane/workers, constituindo assim um cluster, onde para seu funcionamento é recomendado no mínimo três nós: o nó control-plane, responsável (por padrão) pelo gerenciamento do cluster, e os demais como workers, responsáveis por executar as aplicações.
@@ -63,9 +61,27 @@ Assim como os demais orquestradores disponíveis, o k8s também segue um modelo 
     1. **Kubelet:** O kubelet desempenha o papel de um agente do k8s que é executado nos nós workers. Em cada nó worker deverá existir um agente Kubelet em execução, encarregado de gerenciar efetivamente os pods direcionados pelo controller do cluster dentro dos nós. Para isso, o Kubelet pode iniciar, parar e manter os contêineres e os pods em funcionamento seguindo as instruções fornecidas pelo controlador do cluster;
     2. **Kube-proxy:** Age como um proxy e um load balancer. Este componente é responsável por efetuar roteamento de requisições para os pods corretos, como também por cuidar da parte de rede do nó.
 
+##### Portas que devemos nos preocupar
+
+**Control Plane**
+|   Protocol	|   Direction	|   Port   Range	|         Purpose       |       Used By       |
+| ------------- | ------------- | ----------------- | --------------------- | ------------------- |  
+| TCP	        | Inbound	    | 6443*	            | Kubernetes API server	| All                 |
+| TCP	        | Inbound	    | 2379-2380         | etcd server client API| kube-apiserver, etcd|
+| TCP	        | Inbound	    | 10250	            | Kube API	            | Self,CtrlPlane      |
+| TCP	        | Inbound	    | 10259	            | kube-scheduler	    | Self                |
+| TCP	        | Inbound	    | 10257	            | kube-controller-manager| Self               |
+* Toda porta marcada por * é customizável, você precisa se certificar que a porta alterada também esteja aberta.
+
+**Workers**
+|   Protocol	|   Direction	|   Port   Range	|         Purpose       |       Used By       |
+| ------------- | ------------- | ----------------- | --------------------- | ------------------- |  
+| TCP	        | Inbound	    | 10250             | Kubelet API       	| Self, Control plane |
+| TCP	        | Inbound	    | 30000-32767       | NodePort              | Services All        |
 
 
 ### Instalação
+
 
 É possível criar um cluster Kubernetes rodando em apenas um nó, porém é recomendado somente para fins de estudos e nunca executado em ambiente produtivo.
 
