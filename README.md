@@ -97,7 +97,7 @@ Alguns exemplos são:
 * **MicroK8S:** Desenvolvido pela Canonical, mesma empresa que desenvolve o Ubuntu. Pode ser utilizado em diversas distribuições e pode ser utilizado em ambientes de produção, em especial para Edge Computing e IoT (Internet of things)
 
 #### 🧑‍💻 Instalação 
-Para os nossos estudos vamos instalar o kubectl.
+Para os nossos estudos vamos instalar o kubectl e o Kind.
 
 * GNU/Linux
 Vamos instalar o kubectl com os seguintes comandos:
@@ -121,6 +121,7 @@ kubectl version --client
 **Customizando o kubectl**
 * Auto-Complete
 Execute o seguinte comando para configurar o alias e autocomplete para o kubectl.
+
 No bash:
 ```bash
 source <(kubectl completion bash) # configura o autocomplete na sua sessão atual (antes, certifique-se de ter instalado o pacote bash-completion).
@@ -130,7 +131,43 @@ No ZSH:
 ```bash
 source <(kubectl completion zsh)
 echo "[[ $commands[kubectl] ]] && source <(kubectl completion zsh)"
-```s
+```
+
+**Instalando o Kind**
+O Kind (Kubernetes in Docker) é outra alternativa para executar o Kubernetes num ambiente local para testes e aprendizado, mas não é recomendado para uso em produção.
+
+* No GNU/Linux:
+Para fazer a instalação no GNU/Linux, execute os seguintes comandos.
+```bash
+curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.20.0/kind-linux-amd6
+chmod +x ./kind
+sudo mv ./kind /usr/local/bin/kind
+```
+Para fazer a instalação no MacOS, execute o seguinte comando.
+* No MacOS:
+```bash
+sudo brew install kind
+```
+Ou:
+```bash
+curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.20.0/kind-darwin-amd64
+chmod +x ./kind
+mv ./kind /usr/bin/kind
+```
+**Criando um cluster com o Kind**
+* Criando um cluster com o Kind:
+```bash
+kind create cluster --name giropops
+```
+**Visualizando os clusters existentes**
+```bash
+kind get clusters
+```
+**Lista os nodes do cluster**
+```bash
+kubectl get nodes
+```
+
 <!--
 #### :folder: Estrutura do Repositório
 
