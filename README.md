@@ -28,11 +28,11 @@ O runc, principal projeto desenvolvido pela OCI, é um container runtime de baix
 
 * **Pods:** É o menor objeto do k8s. Como dito anteriormente, o k8s não trabalha com os contêineres diretamente, mas organiza-os dentro de pods, que são abstrações que dividem os mesmos recursos, como endereços, volumes, ciclos de CPU e memória. Um pod pode possuir vários contêineres
 
-* **Deployments:** É um dos principais controllers utilizados. O Deployment, em conjunto com o ReplicaSet, garante que determinado número de réplicas de um pod esteja em execução nos nós workers do cluster. Além disso, o Deployment também é responsável por gerenciar o ciclo de vida das aplicações, onde características associadas a aplicação, tais como imagem, porta, volumes e variáveis de ambiente, podem ser especificados em arquivos do tipo yaml ou json para posteriormente serem passados como parâmetro para o kubectl executar o deployment. Esta ação pode ser executada tanto para criação quanto para atualização e remoção do deployment
+* **Deployments:** É um dos principais controllers utilizados, é ele que define as características do nosso pod/serviço. O Deployment, em conjunto com o ReplicaSet, garante que determinado número de réplicas de um pod esteja em execução nos nós workers do cluster. Além disso, o Deployment também é responsável por gerenciar o ciclo de vida das aplicações, onde características associadas a aplicação, tais como imagem, porta, volumes e variáveis de ambiente, podem ser especificados em arquivos do tipo yaml ou json para posteriormente serem passados como parâmetro para o kubectl executar o deployment. Esta ação pode ser executada tanto para criação quanto para atualização e remoção do deployment
 
 * **Services:** É uma forma de você expor a comunicação através de um ClusterIP, NodePort ou LoadBalancer para distribuir as requisições entre os diversos Pods daquele Deployment. Funciona como um balanceador de carga.
 
-* **ReplicaSets:** É um objeto responsável por garantir a quantidade de pods em execução no nó;
+* **ReplicaSets:** É um controller que vai garantir a quantidade de pods em execução no nó;
 
 * **Namespaces:** Permitem a divisão lógica do cluster em ambientes isolados, como desenvolvimento, homologação e produção.
 
@@ -69,8 +69,8 @@ Assim como os demais orquestradores disponíveis, o k8s também segue um modelo 
 | TCP	        | Inbound	    | 6443*	            | Kubernetes API server	| All                 |
 | TCP	        | Inbound	    | 2379-2380         | etcd server client API| kube-apiserver, etcd|
 | TCP	        | Inbound	    | 10250	            | Kube API	            | Self,CtrlPlane      |
-| TCP	        | Inbound	    | 10259	            | kube-scheduler	    | Self                |
-| TCP	        | Inbound	    | 10257	            | kube-controller-manager| Self               |
+| TCP	        | Inbound	    | 10251	            | kube-scheduler	    | Self                |
+| TCP	        | Inbound	    | 10252	            | kube-controller-manager| Self               |
 * Toda porta marcada por * é customizável, você precisa se certificar que a porta alterada também esteja aberta.
 
 **Workers**
@@ -80,8 +80,7 @@ Assim como os demais orquestradores disponíveis, o k8s também segue um modelo 
 | TCP	        | Inbound	    | 30000-32767       | NodePort              | Services All        |
 
 
-### Instalação
-
+### :building: Instalação
 
 É possível criar um cluster Kubernetes rodando em apenas um nó, porém é recomendado somente para fins de estudos e nunca executado em ambiente produtivo.
 
@@ -91,20 +90,36 @@ Com isso você poderá ter um cluster Kubernetes com diversos nós, porém todos
 
 Alguns exemplos são:
 
-Kind: Uma ferramenta para execução de contêineres Docker que simulam o funcionamento de um cluster Kubernetes. É utilizado para fins didáticos, de desenvolvimento e testes. O Kind não deve ser utilizado para produção;
+* **Kind:** Uma ferramenta para execução de contêineres Docker que simulam o funcionamento de um cluster Kubernetes. É utilizado para fins didáticos, de desenvolvimento e testes. O Kind não deve ser utilizado para produção;
 
-Minikube: ferramenta para implementar um cluster Kubernetes localmente com apenas um nó. Muito utilizado para fins didáticos, de desenvolvimento e testes. O Minikube não deve ser utilizado para produção;
+* **Minikube:** ferramenta para implementar um cluster Kubernetes localmente com apenas um nó. Muito utilizado para fins didáticos, de desenvolvimento e testes. O Minikube não deve ser utilizado para produção;
 
-MicroK8S: Desenvolvido pela Canonical, mesma empresa que desenvolve o Ubuntu. Pode ser utilizado em diversas distribuições e pode ser utilizado em ambientes de produção, em especial para Edge Computing e IoT (Internet of things);
+* **MicroK8S:** Desenvolvido pela Canonical, mesma empresa que desenvolve o Ubuntu. Pode ser utilizado em diversas distribuições e pode ser utilizado em ambientes de produção, em especial para Edge Computing e IoT (Internet of things)
 
-k3s: Desenvolvido pela Rancher Labs, é um concorrente direto do MicroK8s, podendo ser executado inclusive em Raspberry Pi;
+#### 🧑‍💻 Instalação 
+Para os nossos estudos vamos instalar o kubectl.
 
-k0s: Desenvolvido pela Mirantis, mesma empresa que adquiriu a parte enterprise do Docker. É uma distribuição do Kubernetes com todos os recursos necessários para funcionar em um único binário, que proporciona uma simplicidade na instalação e manutenção do cluster. A pronúncia é correta é kay-zero-ess e tem por objetivo reduzir o esforço técnico e desgaste na instalação de um cluster Kubernetes, por isso o seu nome faz alusão a Zero Friction. O k0s pode ser utilizado em ambientes de produção;
+* GNU/Linux
+Vamos instalar o kubectl com os seguintes comandos:
+```bash
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+kubectl version --client
+```
 
+* MacOs
+O kubectl pode ser instalado no MacOS utilizando tanto o Homebrew, quanto o método tradicional. Nesse exemplo vamos instalar com o Homebrew.
+```bash
+sudo brew install kubectl
+kubectl version --client
+````
+Ou:
+```bash
+sudo brew install kubectl-cli
+kubectl version --client
+```
 
-
-#### :: Instalação 
-
+<!--
 #### :folder: Estrutura do Repositório
 
 #### Exemplos práticos
@@ -112,8 +127,8 @@ k0s: Desenvolvido pela Mirantis, mesma empresa que adquiriu a parte enterprise d
 #### :chain: Recursos adicionais
 
 #### Boas Práticas
-
-#### Referências
+-->
+#### 📜 Referências
 * https://kubernetes.io
 * https://github.com/kubernetes/kubernetes/
 * https://github.com/kubernetes/kubernetes/issues
@@ -125,5 +140,14 @@ Abaixo temos as páginas oficiais das certificações do Kubernetes (CKA, CKAD e
 * https://www.cncf.io/certification/ckad/
 * https://www.cncf.io/certification/cks/
 
-#### Contribuições
+#### 🤝 Contribuições
+Contribuições são bem-vindas! Sinta-se à vontade para abrir issues ou enviar pull requests com melhorias, correções ou novos exemplos.
+
+1. Faça um fork deste repositório.
+2. Crie um branch: git checkout -b feature/nome-da-sua-feature.
+3. Submeta suas alterações: git push origin feature/nome-da-sua-feature.
+4. Abra um Pull Request.
+
+<!--
 ![Rocket Icon](https://img.shields.io/badge/Launch-Rocket-blue?logo=rocket)
+-->
