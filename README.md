@@ -118,7 +118,19 @@ Ou:
 sudo brew install kubectl-cli
 kubectl version --client
 ```
-
+**Customizando o kubectl**
+* Auto-Complete
+Execute o seguinte comando para configurar o alias e autocomplete para o kubectl.
+No bash:
+```bash
+source <(kubectl completion bash) # configura o autocomplete na sua sessão atual (antes, certifique-se de ter instalado o pacote bash-completion).
+echo "source <(kubectl completion bash)" >> ~/.bashrc # add autocomplete permanentemente ao seu shell.
+```
+No ZSH:
+```bash
+source <(kubectl completion zsh)
+echo "[[ $commands[kubectl] ]] && source <(kubectl completion zsh)"
+```s
 <!--
 #### :folder: Estrutura do Repositório
 
