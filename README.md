@@ -1,6 +1,6 @@
 # Kubernetes: Guia essencial :rocket:
 
-Este repositório foi criado para ajudar no estudo e a compreender os conceitos-chave do Kubernetes e como utilizá-lo para orquestrar contêineres de maneira eficiente. Aqui você encontrará uma introdução teórica, exemplos práticos e dicas úteis para explorar essa poderosa ferramenta.
+Este repositório foi criado para ajudar a compreender os conceitos-chave do Kubernetes e como utilizá-lo para orquestrar contêineres de maneira eficiente. Aqui você encontrará uma introdução teórica, exemplos práticos e dicas úteis para explorar essa poderosa ferramenta.
 <hr>
 
 #### :book: O que é Kubernetes?
