@@ -23,7 +23,7 @@ Em outras palavras o Kubernetes é um orquestrador de container.
 O runc, principal projeto desenvolvido pela OCI, é um container runtime de baixo nível amplamente utilizado por diversos Container Engines, incluindo o Docker. Este projeto, totalmente open source, é escrito em Go e seu código fonte pode ser acessado no GitHub.
 
 * **Cluster:** É o ambiente do kubernetes e é composto por:
-    * **Master (control plane):** responsável por gerenciar o cluster possui a resposabilidade de armazenar o estado do cluster e de manter a saúde e disponibilidade do cluster.
+    * **Master (control plane):** ele é o responsável por gerenciar o cluster e possui a resposabilidade de armazenar o estado seu estado e de manter a saúde e disponibilidade do cluster.
     * **Nodes:** Máquinas (físicas ou virtuais) que executam os containers.
 
 * **Pods:** É o menor objeto do k8s. Como dito anteriormente, o k8s não trabalha com os contêineres diretamente, mas organiza-os dentro de pods, que são abstrações que dividem os mesmos recursos, como endereços, volumes, ciclos de CPU e memória. Um pod pode possuir vários contêineres
