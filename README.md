@@ -41,7 +41,7 @@ O runc, principal projeto desenvolvido pela OCI, é um container runtime de baix
 ### 🧩 Arquitetura do K8S
 Assim como os demais orquestradores disponíveis, o k8s também segue um modelo control plane/workers, constituindo assim um cluster, onde para seu funcionamento é recomendado no mínimo três nós: o nó control-plane, responsável (por padrão) pelo gerenciamento do cluster, e os demais como workers, responsáveis por executar as aplicações.
 
-![k8s architecture](./img/kubernetes_archiketktur_blog.webp)
+![k8s architecture](./img/k8s_architecture.jpg)
 
 * **Control Plane:** Como já sabemos o ***Control Plane*** é o responsável por gerenciar o cluster, mantendo a saúde e disponibilidade do ambiente kubernetes.
 **Componentes de um Control Plane**
