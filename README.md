@@ -4,39 +4,53 @@ Este repositório foi criado para ajudar a compreender os conceitos-chave do Kub
 <hr>
 
 #### :book: O que é Kubernetes?
-Kubernetes (K8s) é uma plataforma de código aberto para automação de implantação, escalonamento e gerenciamento de aplicações em contêineres. Ele foi originalmente desenvolvido pelo Google e é agora mantido pela Cloud Native Computing Foundation (CNCF).
+Kubernetes (K8s) é uma plataforma de orquestração de contêineres de código aberto. Ele automatiza a implantação, o dimensionamento e o gerenciamento de aplicações em contêineres. 
 
-Em outras palavras o Kubernetes é um orquestrador de container.
+Ele foi originalmente desenvolvido pelo Google com o nome de BORG,que gerenciava a implantação de minhares de aplicativos no Google. Em 2014 o Google disponibilizou uma versão de códgo aberto do Borg, agora ele é mantido pela Cloud Native Computing Foundation (CNCF).
+
+![Borg - Kubernetes](img/borg-k8s.png)
+
+<hr>
 
 #### :key: Principais Conceitos
 
-* **Container:** Container é uma tecnologia de virtualização usada para empacotar e isolar aplicações e suas dependências, de forma simples, ou seja, container é isolamento de recursos. 
-    * **Container engine:** É o responsável por gerenciar as imagens e volumes, ele é o responsável por garantir que os os recursos utilizados pelos containers estão devidamente isolados, a vida do container, storage, rede, etc, ou seja, é o responsável por criar o container e verificar se ele esta funcionando corretamente, são exemplos de container engine: Docker Engine e o Podman.  
+* **Container:** Container é uma tecnologia de virtualização usada para empacotar e isolar aplicações e suas dependências de forma simples, ou seja, container é isolamento de recursos. 
+
+* **Container engine:** É o responsável por gerenciar as imagens e volumes, ele é o responsável por garantir que os os recursos utilizados pelos containers estão devidamente isolados, ou seja, é o responsável por criar o container e verificar se ele esta funcionando corretamente.
+Hoje temos diversas opções para se utilizar como container engine: Docker Engine, Podman e o CRIO.
     
-    * **Container runtime:** é o responsável por executar os containers nos nós. Quando você está utilizando ferramentas como Docker ou Podman para executar containers em sua máquina, por exemplo, você está fazendo uso de algum Container Runtime, ou melhor, o seu Container Engine está fazendo uso de algum Container Runtime, em outras palavras ele é o responsável por fazer as comunicações entre o container engine e o Kernel do host. (Ele executa os containeres).  
-        Temos três tipos de Container Runtime:
-        * **Low-level:** são os Container Runtime que são executados diretamente pelo Kernel, como o runc, o crun e o runsc.
-        * **High-level:** são os Container Runtime que são executados por um Container Engine, como o containerd, o CRI-O e o Podman.
-        * **Sandbox e Virtualized:** são os Container Runtime que são executados por um Container Engine e que são responsáveis por executar containers de forma segura. O tipo Sandbox é executado em unikernels ou utilizando algum proxy para fazer a comunicação com o Kernel. O gVisor é um exemplo de Container Runtime do tipo Sandbox. Já o tipo Virtualized é executado em máquinas virtuais. A performance aqui é um pouco menor do que quando executado nativamente. O Kata Containers é um exemplo de Container Runtime do tipo Virtualized.\
+* **Container runtime:** é o responsável por executar os containers nos nós(nodes). Quando você está utilizando ferramentas como Docker ou Podman para executar containers em sua máquina, por exemplo, você está fazendo uso de algum Container Runtime, ou melhor, o seu Container Engine está fazendo uso de algum Container Runtime, em outras palavras ele é o responsável por fazer as comunicações entre o container engine e o Kernel do host. (Ele executa os containeres).  
+    
+    Temos três tipos de Container Runtime:
+    * **Low-level:** são os Container Runtime que são executados diretamente pelo Kernel, como o runc, o crun e o runsc.
+    
+    * **High-level:** são os Container Runtime que são executados por um Container Engine, como o containerd, o CRI-O e o Podman.
+    
+    * **Sandbox e Virtualized:** são os Container Runtime que são executados por um Container Engine e que são responsáveis por executar containers de forma segura. O tipo Sandbox é executado em unikernels ou utilizando algum proxy para fazer a comunicação com o Kernel. O gVisor é um exemplo de Container Runtime do tipo Sandbox. Já o tipo Virtualized é executado em máquinas virtuais. A performance aqui é um pouco menor do que quando executado nativamente. O Kata Containers é um exemplo de Container Runtime do tipo Virtualized.\
 
 * **OCI (Open Container Initiative):** A OCI é uma organização sem fins lucrativos que tem como objetivo padronizar a criação de containers, para que possam ser executados em qualquer ambiente. A OCI foi fundada em 2015 pela Docker, CoreOS, Google, IBM, Microsoft, Red Hat e VMware e hoje faz parte da Linux Foundation.
-O runc, principal projeto desenvolvido pela OCI, é um container runtime de baixo nível amplamente utilizado por diversos Container Engines, incluindo o Docker. Este projeto, totalmente open source, é escrito em Go e seu código fonte pode ser acessado no GitHub.
+O principal projeto criado pela OCi é o runc, é um container runtime de baixo nível amplamente utilizado por diversos Container Engines, incluindo o Docker. Este projeto, totalmente open source, é escrito em Go e seu código fonte pode ser acessado no GitHub.
 
 * **Cluster:** É o ambiente do kubernetes e é composto por:
-    * **Master (control plane):** ele é o responsável por gerenciar o cluster e possui a resposabilidade de armazenar o estado seu estado e de manter a saúde e disponibilidade do cluster.
+    * **Control Plane:** ele é o responsável por gerenciar o cluster e possui a resposabilidade de armazenar o seu estado e de manter a saúde e disponibilidade do cluster.
     * **Nodes:** Máquinas (físicas ou virtuais) que executam os containers.
 
-* **Pods:** É o menor objeto do k8s. Como dito anteriormente, o k8s não trabalha com os contêineres diretamente, mas organiza-os dentro de pods, que são abstrações que dividem os mesmos recursos, como endereços, volumes, ciclos de CPU e memória. Um pod pode possuir vários contêineres
+![Cluster View](img/cluster_view.png)
+
+* **Pods:** É o menor objeto do k8s. Como dito anteriormente, o k8s não trabalha com os contêineres diretamente, mas organiza-os dentro de pods, que são abstrações que dividem os mesmos recursos, como endereços, volumes, ciclos de CPU e memória. Um pod hospeda um ou mais contêineres e fornece armazenamento e rede compartilhados para esses contêineres.
 
 ![Pods](img/pods.svg)
 
 * **Deployments:** É um dos principais controllers utilizados, é ele que define as características do nosso pod/serviço. O Deployment, em conjunto com o ReplicaSet, garante que determinado número de réplicas de um pod esteja em execução nos nós workers do cluster. Além disso, o Deployment também é responsável por gerenciar o ciclo de vida das aplicações, onde características associadas a aplicação, tais como imagem, porta, volumes e variáveis de ambiente, podem ser especificados em arquivos do tipo yaml ou json para posteriormente serem passados como parâmetro para o kubectl executar o deployment. Esta ação pode ser executada tanto para criação quanto para atualização e remoção do deployment
+
+![Deployments View](img/deployment_view.png)
 
 * **Services:** É uma forma de você expor a comunicação através de um ClusterIP, NodePort ou LoadBalancer para distribuir as requisições entre os diversos Pods daquele Deployment. Funciona como um balanceador de carga.
 
 * **ReplicaSets:** É um controller que vai garantir a quantidade de pods em execução no nó;
 
 * **Namespaces:** Permitem a divisão lógica do cluster em ambientes isolados, como desenvolvimento, homologação e produção.
+<hr>
 
 ### 🧩 Arquitetura do K8S
 Assim como os demais orquestradores disponíveis, o k8s também segue um modelo control plane/workers, constituindo assim um cluster, onde para seu funcionamento é recomendado no mínimo três nós: o nó control-plane, responsável (por padrão) pelo gerenciamento do cluster, e os demais como workers, responsáveis por executar as aplicações.
@@ -45,12 +59,12 @@ Assim como os demais orquestradores disponíveis, o k8s também segue um modelo 
 
 * **Control Plane:** Como já sabemos o ***Control Plane*** é o responsável por gerenciar o cluster, mantendo a saúde e disponibilidade do ambiente kubernetes.
 **Componentes de um Control Plane**
-    * **etcd:** É um datastore chave-valor que o kubernetes utiliza para armazenar as especificações, status e configurações do cluster, ele conversa com o Kube ApiServer.
-    * **Kube ApiServer (API Server):** É o ponto de entrada para todas as interações com o cluster recebendo comandos e ou solicitações via kubectl, dashboards ou APIS externas. Ele server como intermediário entre os outros componentes do cluster. Todas as comunicações passam por ele. 
-    * **Kube Scheduler:**  É o responsável por selecionar o nó que irá hospedar um determinado pod para ser executado. Esta seleção é feita baseando-se na quantidade de recursos disponíveis em cada nó, como também no estado de cada um dos nós do cluster, garantindo assim que os recursos sejam bem distribuídos.
-    * **Kube Controller:** É o controller manager quem garante que o cluster esteja no último estado definido no etcd. Por exemplo: se no etcd um deploy está configurado para possuir dez réplicas de um pod, é o controller manager quem irá verificar se o estado atual do cluster corresponde a este estado e, em caso negativo, procurará conciliar ambos.
+    * **etcd:** É um datastore chave-valor que o kubernetes utiliza para armazenar as especificações, status e configurações do cluster, ele conversa com somente com Api Server.
+    * **API Server:** É o ponto de entrada para todas as interações com o cluster recebendo comandos e ou solicitações via kubectl, dashboards ou APIS externas. Ele server como intermediário entre os outros componentes do cluster. Todas as comunicações passam por ele. 
+    * **Scheduler:**  É o responsável por selecionar o nó que irá hospedar um determinado pod para ser executado. Esta seleção é feita baseando-se na quantidade de recursos disponíveis em cada nó, como também no estado de cada um dos nós do cluster, garantindo assim que os recursos sejam bem distribuídos.
+    * **Controller Manager:** É o controller manager quem garante que o cluster esteja no último estado definido no etcd. Por exemplo: se no etcd um deploy está configurado para possuir dez réplicas de um pod, é o controller manager quem irá verificar se o estado atual do cluster corresponde a este estado e, em caso negativo, procurará conciliar ambos.
 
-    ![Arquitetura do Control Plane](./img/Control_Plane_arq.png)\
+    ![Arquitetura do Control Plane](img/Control_Plane_View.png)\
 
 * **Workers:** São os nodes onde as aplicações estão rodando, ele é o responsável por executar aplicações e suas cargas de trabalho.
     ***Principais funções de um Worker***
@@ -81,8 +95,9 @@ Assim como os demais orquestradores disponíveis, o k8s também segue um modelo 
 | TCP	        | Inbound	    | 10250             | Kubelet API       	| Self, Control plane |
 | TCP	        | Inbound	    | 30000-32767       | NodePort              | Services All        |
 
+<hr>
 
-### :building: Instalação
+### :book: Instalação
 
 É possível criar um cluster Kubernetes rodando em apenas um nó, porém é recomendado somente para fins de estudos e nunca executado em ambiente produtivo.
 
@@ -111,15 +126,12 @@ kubectl version --client
 
 * MacOs
 O kubectl pode ser instalado no MacOS utilizando tanto o Homebrew, quanto o método tradicional. Nesse exemplo vamos instalar com o Homebrew.
-```bash
+
+````bash
 sudo brew install kubectl
 kubectl version --client
 ````
-Ou:
-```bash
-sudo brew install kubectl-cli
-kubectl version --client
-```
+
 **Customizando o kubectl**
 * Auto-Complete
 Execute o seguinte comando para configurar o alias e autocomplete para o kubectl.
@@ -156,19 +168,51 @@ curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.20.0/kind-darwin-amd64
 chmod +x ./kind
 mv ./kind /usr/bin/kind
 ```
+<hr>
+
+#### :book: Exemplos Práticos
+Agora que já instalamos o kubectl e o kind vamos colocar em prática todos os conceitos chaves aprendidos até aqui.
+
 **Criando um cluster com o Kind**
 * Criando um cluster com o Kind:
 ```bash
-kind create cluster --name giropops
+kind create cluster --name meucluster
 ```
+![Screen create cluster](img/create_cluster.png)
+
 **Visualizando os clusters existentes**
 ```bash
 kind get clusters
 ```
+
 **Lista os nodes do cluster**
 ```bash
 kubectl get nodes
 ```
+![get nodes](img/get_nodes.png)
+
+**Executando nosso primeiro pod no k8s**
+```bash
+kubectl run nginx --image nginx --port 80
+```
+
+**Listando os pods**
+```bash
+kubectl get pods
+kubectl get pods -A
+kubectl get pods -n namespaceName -o wide 
+```
+
+**Expondo o pod e criando um service**
+```bash
+kubectl expose pod nginx --type NodePort
+```
+
+**Listando os services**
+```bash
+kubectl get service
+```
+
 
 <!--
 #### :folder: Estrutura do Repositório
