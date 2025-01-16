@@ -303,11 +303,55 @@ spec:
     emptyDir:
       sizeLimit: 256Mi
 ```
+**Exemplo de mafiesto para criar um deployment**
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  strategy: {}
+  # Definições do pod
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx-container
+        image: nginx
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "0.5"
+        ports:
+        - containerPort: 80
+```
+**Listando os deployments**
+```yaml
+kubectl get deployments -o wide
+```
+![Visão do deployment](img/visao_deployment.png)
+
+**Listando os replica sets**
+```yaml
+kubectl get replicasets -o wide
+```
+![Visão do Replica Set](img/visao_replicaset.png)
+
+<hr>
+
+* Para estudar mais sobre Deployment você pode continuar [aqui](./Deployments/README.md)
+
 
 <!--
 #### :folder: Estrutura do Repositório
-
-#### Exemplos práticos
 
 #### :chain: Recursos adicionais
 
