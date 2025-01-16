@@ -14,34 +14,34 @@ Ele foi originalmente desenvolvido pelo Google com o nome de BORG,que gerenciava
 
 #### :key: Principais Conceitos
 
-* **Container:** Container é uma tecnologia de virtualização usada para empacotar e isolar aplicações e suas dependências de forma simples, ou seja, container é isolamento de recursos. 
+**Container:** Container é uma tecnologia de virtualização usada para empacotar e isolar aplicações e suas dependências de forma simples, ou seja, container é isolamento de recursos. 
 
-* **Container engine:** É o responsável por gerenciar as imagens e volumes, ele é o responsável por garantir que os os recursos utilizados pelos containers estão devidamente isolados, ou seja, é o responsável por criar o container e verificar se ele esta funcionando corretamente.
+**Container engine:** É o responsável por gerenciar as imagens e volumes, ele é o responsável por garantir que os os recursos utilizados pelos containers estão devidamente isolados, ou seja, é o responsável por criar o container e verificar se ele esta funcionando corretamente.
 Hoje temos diversas opções para se utilizar como container engine: Docker Engine, Podman e o CRIO.
     
-* **Container runtime:** é o responsável por executar os containers nos nós(nodes). Quando você está utilizando ferramentas como Docker ou Podman para executar containers em sua máquina, por exemplo, você está fazendo uso de algum Container Runtime, ou melhor, o seu Container Engine está fazendo uso de algum Container Runtime, em outras palavras ele é o responsável por fazer as comunicações entre o container engine e o Kernel do host. (Ele executa os containeres).  
-    
-    Temos três tipos de Container Runtime:
-    * **Low-level:** são os Container Runtime que são executados diretamente pelo Kernel, como o runc, o crun e o runsc.
-    
-    * **High-level:** são os Container Runtime que são executados por um Container Engine, como o containerd, o CRI-O e o Podman.
-    
-    * **Sandbox e Virtualized:** são os Container Runtime que são executados por um Container Engine e que são responsáveis por executar containers de forma segura. O tipo Sandbox é executado em unikernels ou utilizando algum proxy para fazer a comunicação com o Kernel. O gVisor é um exemplo de Container Runtime do tipo Sandbox. Já o tipo Virtualized é executado em máquinas virtuais. A performance aqui é um pouco menor do que quando executado nativamente. O Kata Containers é um exemplo de Container Runtime do tipo Virtualized.\
+**Container runtime:** é o responsável por executar os containers nos nós(nodes). Quando você está utilizando ferramentas como Docker ou Podman para executar containers em sua máquina, por exemplo, você está fazendo uso de algum Container Runtime, ou melhor, o seu Container Engine está fazendo uso de algum Container Runtime, em outras palavras ele é o responsável por fazer as comunicações entre o container engine e o Kernel do host. (Ele executa os containeres).
 
-* **OCI (Open Container Initiative):** A OCI é uma organização sem fins lucrativos que tem como objetivo padronizar a criação de containers, para que possam ser executados em qualquer ambiente. A OCI foi fundada em 2015 pela Docker, CoreOS, Google, IBM, Microsoft, Red Hat e VMware e hoje faz parte da Linux Foundation.
+Temos três tipos de Container Runtime:
+* **Low-level:** são os Container Runtime que são executados diretamente pelo Kernel, como o runc, o crun e o runsc.
+    
+* **High-level:** são os Container Runtime que são executados por um Container Engine, como o containerd, o CRI-O e o Podman.
+    
+* **Sandbox e Virtualized:** são os Container Runtime que são executados por um Container Engine e que são responsáveis por executar containers de forma segura. O tipo Sandbox é executado em unikernels ou utilizando algum proxy para fazer a comunicação com o Kernel. O gVisor é um exemplo de Container Runtime do tipo Sandbox. Já o tipo Virtualized é executado em máquinas virtuais. A performance aqui é um pouco menor do que quando executado nativamente. O Kata Containers é um exemplo de Container Runtime do tipo Virtualized.\
+
+**OCI (Open Container Initiative):** A OCI é uma organização sem fins lucrativos que tem como objetivo padronizar a criação de containers, para que possam ser executados em qualquer ambiente. A OCI foi fundada em 2015 pela Docker, CoreOS, Google, IBM, Microsoft, Red Hat e VMware e hoje faz parte da Linux Foundation.
 O principal projeto criado pela OCi é o runc, é um container runtime de baixo nível amplamente utilizado por diversos Container Engines, incluindo o Docker. Este projeto, totalmente open source, é escrito em Go e seu código fonte pode ser acessado no GitHub.
 
-* **Cluster:** É o ambiente do kubernetes e é composto por:
-    * **Control Plane:** ele é o responsável por gerenciar o cluster e possui a resposabilidade de armazenar o seu estado e de manter a saúde e disponibilidade do cluster.
-    * **Nodes:** Máquinas (físicas ou virtuais) que executam os containers.
+**Cluster:** É o ambiente do kubernetes e é composto por:
+* **Control Plane:** ele é o responsável por gerenciar o cluster e possui a resposabilidade de armazenar o seu estado e de manter a saúde e disponibilidade do cluster.
+* **Nodes:** Máquinas (físicas ou virtuais) que executam os containers.
 
 ![Cluster View](img/cluster_view.png)
 
-* **Pods:** É o menor objeto do k8s. Como dito anteriormente, o k8s não trabalha com os contêineres diretamente, mas organiza-os dentro de pods, que são abstrações que dividem os mesmos recursos, como endereços, volumes, ciclos de CPU e memória. Um pod hospeda um ou mais contêineres e fornece armazenamento e rede compartilhados para esses contêineres.
+**Pods:** É o menor objeto do k8s. Como dito anteriormente, o k8s não trabalha com os contêineres diretamente, mas organiza-os dentro de pods, que são abstrações que dividem os mesmos recursos, como endereços, volumes, ciclos de CPU e memória. Um pod hospeda um ou mais contêineres e fornece armazenamento e rede compartilhados para esses contêineres.
 
 ![Pods](img/pods.svg)
 
-* **Deployments:** É um dos principais controllers utilizados, é ele que define as características do nosso pod/serviço. O Deployment, em conjunto com o ReplicaSet, garante que determinado número de réplicas de um pod esteja em execução nos nós workers do cluster. Além disso, o Deployment também é responsável por gerenciar o ciclo de vida das aplicações, onde características associadas a aplicação, tais como imagem, porta, volumes e variáveis de ambiente, podem ser especificados em arquivos do tipo yaml ou json para posteriormente serem passados como parâmetro para o kubectl executar o deployment. Esta ação pode ser executada tanto para criação quanto para atualização e remoção do deployment
+**Deployments:** É um dos principais controllers utilizados, é ele que define as características do nosso pod/serviço. O Deployment, em conjunto com o ReplicaSet, garante que determinado número de réplicas de um pod esteja em execução nos nós workers do cluster. Além disso, o Deployment também é responsável por gerenciar o ciclo de vida das aplicações, onde características associadas a aplicação, tais como imagem, porta, volumes e variáveis de ambiente, podem ser especificados em arquivos do tipo yaml ou json para posteriormente serem passados como parâmetro para o kubectl executar o deployment. Esta ação pode ser executada tanto para criação quanto para atualização e remoção do deployment
 
 ![Deployments View](img/deployment_view.png)
 
@@ -50,6 +50,33 @@ O principal projeto criado pela OCi é o runc, é um container runtime de baixo 
 * **ReplicaSets:** É um controller que vai garantir a quantidade de pods em execução no nó;
 
 * **Namespaces:** Permitem a divisão lógica do cluster em ambientes isolados, como desenvolvimento, homologação e produção.
+
+**Volumes** 
+Os volumes no K8S são uma forma de armazenar dados persistentes ou temporários para os contêineres e um Pod. Eles oferecem uma solução para superar a limitação de armazenamento efêmero dos contêineres, onde os dados são perdidos quando o contêiner é reiniciado.
+
+Cada volume é montado no sistema de arquivos do contêiner e pode ser acessado por um ou mais contêineres no mesmo Pod. O ciclo de vida do volume está atrelado ao ciclo de vida do Pod que o utiliza.
+
+Principais tipos de volumes em Kubernetes
+* **emptyDir**: 
+Um volume temporário que é criado ao iniciar o Pod e é apagado quando o Pod é excluído.
+Ideal para dados que precisam ser compartilhados entre os contêineres de um Pod durante sua execução.
+
+* **hostPath**: 
+Monta um diretório ou arquivo do nó hospedeiro dentro do Pod. Usado em casos específicos, como acessar recursos do host. Pode causar problemas de segurança e portabilidade.  
+
+* **persistentVolumeClaim (PVC)**:
+Vincula um Pod a um recurso de armazenamento persistente (PersistentVolume). É a abordagem recomendada para armazenamento durável e pode ser integrado com provedores de armazenamento, como EBS (AWS), Google Persistent Disk, ou NFS.
+
+* **configMap**
+Monta configurações como arquivos ou variáveis de ambiente dentro do contêiner. É útil para separar configurações do código da aplicação.
+
+* **secret**
+Similar ao ConfigMap, mas usado para armazenar dados sensíveis, como senhas, tokens e certificados. Os dados são armazenados em base64 e podem ser montados como arquivos ou variáveis de ambiente.
+
+* **nfs**
+Permite montar volumes NFS (Network File System) no Pod. É uma boa escolha para armazenamento compartilhado.
+
+Cada tipo de volume atende a diferentes necessidades, como persistência, compartilhamento de dados ou integração com provedores de armazenamento específicos. A escolha depende da aplicação e do ambiente em que o cluster Kubernetes está operando.
 <hr>
 
 ### 🧩 Arquitetura do K8S
@@ -241,6 +268,42 @@ kubectl get service
 kubectl describe pods podname
 ```
 ![Describe Pod](img/describe_pod.png)
+
+**Exemplo de um manifesto YAML para criar volume**
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: webserver
+    app: webserver
+    service: nginx
+    author: Bruno_Salmito
+  name: webserver
+spec:
+  containers:
+  - image: nginx
+    name: webserver
+    ports:
+    - containerPort: 80
+    volumeMounts:
+    - name: app-volume
+      mountPath: /var/app
+    resources:
+      limits:
+        cpu: "0.5"
+        memory: "128Mi"
+      requests:
+        cpu: "0.3"
+        memory: "64Mi"
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+  volumes:
+  - name: app-volume
+    emptyDir:
+      sizeLimit: 256Mi
+```
+
 <!--
 #### :folder: Estrutura do Repositório
 
