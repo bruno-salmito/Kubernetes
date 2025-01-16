@@ -194,6 +194,29 @@ kubectl get nodes
 **Executando nosso primeiro pod no k8s**
 ```bash
 kubectl run nginx --image nginx --port 80
+# Cria um pode pelo manifesto yaml, se o pode já existir atualiza as mudanças
+kubectl apply -f pod.yaml
+# Cria um novo pode
+kubectl create -f pod.yaml
+```
+**Exemplo básico de um arquivo YAML para criar um pod**
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: girus
+    app: webserver
+    service: nginx
+    author: Bruno_Salmito
+  name: girus
+spec:
+  containers:
+  - image: nginx
+    name: girus
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
 ```
 
 **Listando os pods**
@@ -213,7 +236,11 @@ kubectl expose pod nginx --type NodePort
 kubectl get service
 ```
 
-
+**Listando informações de um pod**
+```bash
+kubectl describe pods podname
+```
+![Describe Pod](img/describe_pod.png)
 <!--
 #### :folder: Estrutura do Repositório
 
