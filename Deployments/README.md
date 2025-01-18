@@ -95,12 +95,75 @@ kubectl rollout history deployment my-app
 ````
 <hr>
 
-#### :book: Por que usar Deployment ?
+**Por que usar Deployment ?**
+
 * Gerenciamento simplificado de aplicações.
 * Atualizações seguras e controladas.
 * Escalabilidade automática com Horizontal Pod Autoscaler.
 * Suporte a reversões rápidas.
 * Monitoramento contínuo e recuperação de falhas.
+
+<hr>
+
+#### :book: Replicasets
+
+O ReplicaSet é o recurso criado pelo Deployment que fica responsável por garantir que um número desejado de réplicas (pods) de uma aplicação esteja sempre em execução no cluster. Ele monitora constantemente os Pods associados e atua para manter o estado desejado, caso um node falhe ou fique indisponível o ReplicaSet recria os Pods em outros nodes disponíveis, garantindo assim alta disponibilidade.
+
+O ReplicaSet é essencial no Kubernetes para manter a resiliência e a disponibilidade das aplicações, garantindo que o número correto de réplicas de Pods esteja sempre em execução no cluster. Ele funciona como a base de mecanismos de escalabilidade e tolerância a falhas.
+
+No Kubernetes, um único ReplicaSet é criado por Deployment, independentemente de quantos Pods você especificar no Deployment. Esse ReplicaSet é então responsável por gerenciar todos os Pods definidos no campo replicas do Deployment.
+
+**Como funciona:**
+
+**1. Deployment cria um ReplicaSet único:**
+
+* Quando você cria um Deployment, o Kubernetes gera automaticamente um ReplicaSet que corresponde à configuração definida no Deployment.
+    
+* Esse ReplicaSet gerencia os Pods associados e mantém o número desejado de réplicas (replicas).
+
+
+**2. Relação entre Deployment, ReplicaSet e Pods:**
+
+* O Deployment atua como um controlador de nível mais alto, gerenciando a lógica de atualizações, rollouts e rollbacks.
+* O ReplicaSet criado pelo Deployment é responsável por garantir que o número correto de Pods esteja sempre em execução.
+
+**3. Pod único ≠ ReplicaSet único:**
+
+* Se você definir, por exemplo, replicas: 5 no Deployment, o ReplicaSet único criado será configurado para manter esses 5 Pods em execução. Não há um ReplicaSet para cada Pod.
+
+**Observação:** 
+
+É possível criar um ReplicaSet sem um deployment, mas não é uma boa prática, pois o ReplicaSet não tem a capacidade de fazer o gerenciamento de versões dos pods e também não tem a capacidade de fazer o gerenciamento de RollingUpdate dos Pods.
+
+Caso seja realmente necessário segue modelo de manifesto YAML para criar um ReplicaSet
+
+```yaml
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: nginx-replicaset
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:1.23
+          ports:
+            - containerPort: 80
+````
+
+![Deployment Replicaset](img/replicaSets.webp)
+
+
+
+
 
 #### 📜 Referências
 * https://kubernetes.io
