@@ -1,18 +1,20 @@
 # Kubernetes: Guia essencial :rocket:
 
-Este repositório foi criado para ajudar a compreender os conceitos-chave do Kubernetes e como utilizá-lo para orquestrar contêineres de maneira eficiente. Aqui você encontrará uma introdução teórica, exemplos práticos e dicas úteis para explorar essa poderosa ferramenta.
+Este repositório foi criado durante os meus estudos para a certificação CKA, ajudando assim a compreender os conceitos-chave do Kubernetes e como utilizá-lo para orquestrar contêineres de maneira eficiente. Aqui você encontrará uma introdução teórica, exemplos práticos e dicas úteis para explorar essa poderosa ferramenta.
 <hr>
 
 #### :book: O que é Kubernetes?
-Kubernetes (K8s) é uma plataforma de orquestração de contêineres de código aberto. Ele automatiza a implantação, o dimensionamento e o gerenciamento de aplicações em contêineres. 
+Kubernetes (K8s) é uma plataforma open-source de orquestração de contêineres. Ele facilita a implantação, escalabilidade e gestão de aplicações conteinerizadas, garantindo alta disponibilidade e eficiência na alocação de recursos.
 
 Ele foi originalmente desenvolvido pelo Google com o nome de BORG,que gerenciava a implantação de minhares de aplicativos no Google. Em 2014 o Google disponibilizou uma versão de códgo aberto do Borg, agora ele é mantido pela Cloud Native Computing Foundation (CNCF).
+
+O nome Kubernetes tem origem no Grego, significando timoneiro ou piloto. K8s é a abreviação derivada pela troca das oito letras "ubernete" por "8", se tornado K"8"s.
 
 ![Borg - Kubernetes](img/borg-k8s.png)
 
 <hr>
 
-#### :key: Principais Conceitos
+#### :key: Conceitos Básicos
 
 **Container:** Container é uma tecnologia de virtualização usada para empacotar e isolar aplicações e suas dependências de forma simples, ou seja, container é isolamento de recursos. 
 
@@ -139,6 +141,9 @@ Alguns exemplos são:
 * **Minikube:** ferramenta para implementar um cluster Kubernetes localmente com apenas um nó. Muito utilizado para fins didáticos, de desenvolvimento e testes. O Minikube não deve ser utilizado para produção;
 
 * **MicroK8S:** Desenvolvido pela Canonical, mesma empresa que desenvolve o Ubuntu. Pode ser utilizado em diversas distribuições e pode ser utilizado em ambientes de produção, em especial para Edge Computing e IoT (Internet of things)
+
+* Caso deseje subir um cluster completo, composto por um control-plane e dois workes (3 VMS) usando o kubeadm você pode acompanhar o processo por [aqui](./Services/README.md)
+
 
 #### 🧑‍💻 Instalação 
 Para os nossos estudos vamos instalar o kubectl e o Kind.
@@ -348,6 +353,14 @@ kubectl get replicasets -o wide
 <hr>
 
 * Para estudar mais sobre Deployment você pode continuar [aqui](./Deployments/README.md)
+* Para estudar mais sobre Estratégias de update você pode continuar [aqui](./Strategy/README.md)
+* Para estudar mais sobre DaemonSet e ReplicaSet você pode continuar [aqui](./DaemonSetReplicaSet/README.md)
+* Para estudar mais sobre Probes você pode continuar [aqui](./Probes/README.md)
+* Para estudar mais sobre Volumes você pode continuar [aqui](./Volumes/README.md)
+* Para estudar mais sobre Volumes você pode continuar [aqui](./Services/README.md)
+
+<hr>
+* Montar um cluster Kubernetes completo com um Control Plane e dois workes (3 VMS) [aqui](./Cluster/README.md)
 
 
 <!--

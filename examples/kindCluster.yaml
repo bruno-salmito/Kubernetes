@@ -1,0 +1,24 @@
+############################################
+# Manifesto para criar o cluster
+# Autor: Bruno Salmito
+# Versão: 0.1
+############################################
+apiVersion: kind.x-k8s.io/v1alpha4
+kind: Cluster
+name: home
+networking:
+  ipFamily: ipv4
+  apiServerAddress: 127.0.0.1
+  podSubnet: "10.244.0.0/16"
+  serviceSubnet: "10.96.0.0/12"
+nodes:
+- role: control-plane
+  extraPortMappings:
+    - containerPort: 30000
+      hostPort: 30000
+      protocol: TCP
+    - containerPort: 30001
+      hostPort: 30001
+      protocol: TCP
+- role: worker
+- role: worker
